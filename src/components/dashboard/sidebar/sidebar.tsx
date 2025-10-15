@@ -1,5 +1,7 @@
+import { adminDashboardSidebarOptions } from "@/constants/data";
 import { currentUser } from "@clerk/nextjs/server";
 import { FC } from "react";
+import SidebarNavAdmin from "./nav-admin";
 import UserInfo from "./user-info";
 
 interface SidebarProps {
@@ -11,7 +13,10 @@ export const Sidebar: FC<SidebarProps> = async ({ isAdmin }) => {
   return (
     <div className="w-[300px] border-r h-screen p-4 flex flex-col fixed top-0 left-0 bottom-0">
       {/* <Logo width="100%" height="180px"/> */}
-      <span className="mt-3">{user && <UserInfo user={user} />}</span>
+      <span className="mt-3">
+        {user && <UserInfo user={user} />}
+        {isAdmin && <SidebarNavAdmin menuLinks={adminDashboardSidebarOptions} />}
+      </span>
     </div>
   );
 };
