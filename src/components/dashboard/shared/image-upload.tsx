@@ -10,7 +10,6 @@ interface ImageUploadProps {
   value: string[];
   type: "standard" | "profile" | "cover";
   dontShowPreview?: boolean;
-  cloudinary_key: string;
 }
 
 export const ImageUpload = ({
@@ -20,7 +19,6 @@ export const ImageUpload = ({
   value,
   type,
   dontShowPreview,
-  cloudinary_key,
 }: ImageUploadProps) => {
   const onUpload = (result: any) => {
     console.log("result", result);
@@ -28,7 +26,7 @@ export const ImageUpload = ({
   };
   if (type === "profile") {
     return (
-      <div className="relative rounded-full size-52 inset-x-96 bg-gray-200 border-2 border-white shadow-2xl">
+      <div className="relative rounded-full size-52 bg-gray-200 border-2 border-white shadow-2xl">
         {value.length > 0 && (
           <Image
             src={value[0]}
@@ -38,7 +36,7 @@ export const ImageUpload = ({
             className="size-52 rounded-full object-cover absolute top-0 left-0 bottom-0 right-0"
           />
         )}
-        <CldUploadWidget uploadPreset={cloudinary_key} onSuccess={onUpload}>
+        <CldUploadWidget uploadPreset="markethive_upload" onSuccess={onUpload}>
           {({ open }) => {
             const onClick = () => {
               open();

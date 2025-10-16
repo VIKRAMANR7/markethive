@@ -37,3 +37,45 @@ export const CategoryFormSchema = z.object({
 
   featured: z.boolean().default(false),
 });
+
+export const SubCategoryFormSchema = z.object({
+  name: z
+    .string({
+      error: (issue) =>
+        issue.input === undefined
+          ? "SubCategory name is required"
+          : "SubCategory name must be a string",
+    })
+    .min(2, { error: "SubCategory name must be at least 2 characters long." })
+    .max(50, { error: "SubCategory name cannot exceed 50 characters." })
+    .regex(/^[a-zA-Z0-9\s]+$/, {
+      error: "Only letters, numbers, and spaces are allowed in the subCategory name.",
+    }),
+
+  image: z
+    .array(
+      z.object({
+        url: z.string({
+          error: (issue) =>
+            issue.input === undefined ? "Image URL is required" : "Image URL must be a string",
+        }),
+      })
+    )
+    .length(1, { error: "Choose a subCategory image" }),
+
+  url: z
+    .string({
+      error: (issue) =>
+        issue.input === undefined
+          ? "SubCategory URL is required"
+          : "SubCategory URL must be a string",
+    })
+    .min(2, { error: "SubCategory URL must be at least 2 characters long." })
+    .max(50, { error: "SubCategory URL cannot exceed 50 characters." })
+    .regex(/^(?!.*(?:[-_]){2,})[a-zA-Z0-9_-]+$/, {
+      error:
+        "Only letters, numbers, hyphens, and underscores are allowed in the subCategory URL, and consecutive hyphens or underscores are not allowed.",
+    }),
+  categoryId: z.uuid(),
+  featured: z.boolean().default(false),
+});
