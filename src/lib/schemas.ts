@@ -79,3 +79,80 @@ export const SubCategoryFormSchema = z.object({
   categoryId: z.uuid(),
   featured: z.boolean().default(false),
 });
+
+export const StoreFormSchema = z.object({
+  name: z
+    .string({
+      error: (issue) =>
+        issue.input === undefined ? "Store name is required" : "Store name must be a string",
+    })
+    .min(2, { error: "Store name must be at least 2 characters long." })
+    .max(50, { error: "Store name cannot exceed 50 characters." })
+    .regex(/^(?!.*(?:[-_& ]){2,})[a-zA-Z0-9_ &-]+$/, {
+      error:
+        "Only letters, numbers, space, hyphen, and underscore are allowed in the store name, and consecutive occurrences of hyphens, underscores, or spaces are not permitted.",
+    }),
+
+  description: z
+    .string({
+      error: (issue) =>
+        issue.input === undefined
+          ? "Store description is required"
+          : "Store description must be a string",
+    })
+    .min(30, {
+      error: "Store description must be at least 30 characters long.",
+    })
+    .max(500, { error: "Store description cannot exceed 500 characters." }),
+
+  email: z.email({
+    error: "Invalid email format.",
+  }),
+
+  phone: z
+    .string({
+      error: (issue) =>
+        issue.input === undefined
+          ? "Store phone number is required"
+          : "Store phone number must be a string",
+    })
+    .regex(/^\+?\d+$/, { error: "Invalid phone number format." }),
+
+  logo: z
+    .array(
+      z.object({
+        url: z.string({
+          error: (issue) =>
+            issue.input === undefined ? "Image URL is required" : "Image URL must be a string",
+        }),
+      })
+    )
+    .length(1, { error: "Choose a logo image" }),
+
+  cover: z
+    .array(
+      z.object({
+        url: z.string({
+          error: (issue) =>
+            issue.input === undefined ? "Image URL is required" : "Image URL must be a string",
+        }),
+      })
+    )
+    .length(1, { error: "Choose a cover image" }),
+
+  url: z
+    .string({
+      error: (issue) =>
+        issue.input === undefined ? "Store url is required" : "Store url must be a string",
+    })
+    .min(2, { error: "Store url must be at least 2 characters long." })
+    .max(50, { error: "Store url cannot exceed 50 characters." })
+    .regex(/^(?!.*(?:[-_ ]){2,})[a-zA-Z0-9_-]+$/, {
+      error:
+        "Only letters, numbers, hyphen, and underscore are allowed in the store url, and consecutive occurrences of hyphens, underscores, or spaces are not permitted.",
+    }),
+
+  featured: z.boolean().default(false),
+
+  status: z.string().default("PENDING"),
+});
